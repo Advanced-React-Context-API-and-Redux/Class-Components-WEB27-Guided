@@ -41,7 +41,46 @@ const groceries = [
 class App extends React.Component {
   // Constructor with state
 
+  // What we inherit from React.Component
+  // this.state
+  // this.setState
+  // lifecycle methods
+  constructor() {
+    super();
+    this.state = {
+      groceryList: groceries
+    };
+  }
+
+  // const [someData, setSomeData] = useState('')
+  // const [moreData, setSomeData] = useState([])
+
+  // THE `this` KEYWORD 👻
+
   // Class methods to update state
+  toggleItem = clickedId => {
+    // no mutating the current state
+    // for every array and every object - create a new one (..., or array methods)
+    const newGroceryList = this.state.groceryList.map(item => {
+      // loop through the array
+      // find the item we clicked (id, maybe index)
+      // toggle that item's purchased property
+      if (item.id === clickedId) {
+        // toggle purchased
+        return {
+          ...item,
+          purchased: !item.purchased
+        };
+      } else {
+        return item;
+      }
+    });
+
+    // Update state with the new array
+    this.setState({
+      groceryList: newGroceryList
+    });
+  };
 
   render() {
     console.log('rendering...');
@@ -51,7 +90,10 @@ class App extends React.Component {
           <h1>Shopping List</h1>
           <ListForm />
         </div>
-        <GroceryList groceries={groceries} />
+        <GroceryList
+          groceries={this.state.groceryList}
+          toggleItem={this.toggleItem}
+        />
       </div>
     );
   }
