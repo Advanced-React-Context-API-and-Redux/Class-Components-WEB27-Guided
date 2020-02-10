@@ -82,17 +82,31 @@ class App extends React.Component {
     });
   };
 
+  addNewItem = itemText => {
+      const newItem = {
+          name: itemText,
+          id: Date.now(),
+          purchased: false
+      };
+      this.setState({
+          groceryList: [...this.state.groceryList, newItem]
+      })
+  }
+
   render() {
     console.log('rendering...');
     return (
       <div className="App">
         <div className="header">
           <h1>Shopping List</h1>
-          <ListForm />
+          <ListForm 
+            addNewItem={this.addNewItem}
+        />
         </div>
         <GroceryList
           groceries={this.state.groceryList}
           toggleItem={this.toggleItem}
+
         />
       </div>
     );
